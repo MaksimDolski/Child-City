@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+        p, label {
+            font-size: 16px;
+        }
+        
+        .line {
+    width: 100%;
+    height: 1px;
+    background-color: grey;
+}
+.radio-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.radio-item input[type="radio"] {
+    margin-right: 8px;
+}
+
+.radio-item label {
+    margin-bottom: 0px;
+}
+
+    </style>
+    <script>
+      window.onload = function() {
+        var childrenCountInput = document.getElementById('children-count');
+        var hoursCountInput = document.getElementById('hours-count');
+        var childrenRule = document.getElementById('children-rule');
+        var hoursRule = document.getElementById('hours-rule');
+        var checkBoxes = document.querySelectorAll('input[type="checkbox"]');
+        var checkoutButton = document.getElementById('checkout-button');
+
+        function hasError() {
+          return childrenRule.style.display === 'block' || hoursRule.style.display === 'block' || !areAllCheckboxesChecked();
+        }
+
+        function areAllCheckboxesChecked() {
+          for (var i = 0; i < checkBoxes.length; i++) {
+            if (!checkBoxes[i].checked) {
+              return false;
+            }
+          }
+          return true;
+        }
+
+        childrenCountInput.addEventListener('input', function() {
+          var childrenCount = parseInt(childrenCountInput.value);
+          if (childrenCount > 10 || childrenCount < 1) {
+            childrenRule.style.display = 'block';
+          } else {
+            childrenRule.style.display = 'none';
+          }
+          checkoutButton.disabled = hasError();
+        });
+
+        hoursCountInput.addEventListener('input', function() {
+          var hoursCount = parseInt(hoursCountInput.value);
+          if (hoursCount > 2 || hoursCount < 1) {
+            hoursRule.style.display = 'block';
+          } else {
+            hoursRule.style.display = 'none';
+          }
+          checkoutButton.disabled = hasError();
+        });
+
+        for (var i = 0; i < checkBoxes.length; i++) {
+          checkBoxes[i].addEventListener('change', function() {
+            checkoutButton.disabled = hasError();
+          });
+        }
+
+        checkoutButton.disabled = hasError();
+      };
+    </script>
+  </head>
+  
+
+  
+  <body>
+      <div>
+	    <p>Open visitation:</p>
+	    <p>1. A child spends time in the studio with a parent (accompanying adult) and without an administrator <b>(until 5:00 PM)</b>.</p>
+        <p>2. A child spends time in the studio without parental accompaniment with an administrator <b>(after 5:00 PM)</b>. For children aged 4 to 12 years old.</p>
+<br>
+            <p>The cost is (per child):</p>
+<p>1 hour - <b>7 euros</b></p>
+<p>2 hours - <b>10 euros</b></p>
+<br>
+<p>To access the room, you need to use a <b>code</b> that will be sent to your email after payment. This code you enter manually on the door lock panel of the playroom.</p>
+<br>
+ <p class="p2"><b>NB!</b> Schedule available on our <a href="https://www.facebook.com/profile.php?id=61552316565262" target="_blank"><u>Facebook</u></a> page</p>
+<br>
+
+  
+      </div>
+    <div class="line"></div>
+    <br>
+    <form>
+      <div> 
+        <label for="children-count">The number of children</label>
+        <input type="number" pattern="[0-9]*" min="1" max="10" id="children-count">
+        <p style="color: red; display: none;" id="children-rule">Minimum 1, maximum 10 children</p>
+      </div>
+
+      <div>
+        <label for="hours-count">The number of hours</label>
+        <input type="number" pattern="[0-9]*" min="1" max="2" id="hours-count">
+        <p style="color: red; display: none;" id="hours-rule">Minimum 1, maximum 2 hours</p>
+      </div>
+      
+          <div>
+    <label for="source">How did you find out about our studio?</label>
+    <select id="source" name="source">
+        <option value="" disabled selected>Please select</option>
+        <option value="facebook">Facebook</option>
+        <option value="instagram">Instagram</option>
+        <option value="tiktok">TikTok</option>
+        <option value="ad">Advertisement in a public place</option>
+        <option value="friends">Friends</option>
+        <option value="fitness">I work out at 24-7 Fitness</option>
+        <option value="other">Other</option>
+    </select>
+  </div>
+  <br>
+
+      
+      <div>
+    <p>Open visitation:</p>
+    <div class="radio-container">
+        <div class="radio-item">
+            <input type="radio" id="with_parents" name="open_visitation" value="with_parents" checked>
+            <label for="with_parents">with parent</label>
+        </div>
+        <div class="radio-item">
+            <input type="radio" id="without_parents" name="open_visitation" value="without_parents">
+            <label for="without_parents">without parent</label>
+        </div>
+    </div>
+</div>
+
+      <div style="margin-top: 25px;">
+        <p>Total: <span id="total-price-span">0</span> eur</p>
+      </div>
+
+      
+      <div id='checkout'>
+        <a href="" id="checkout-href"></a>
+      </div>
+      
+      <label>
+        <input type="checkbox" class="responsibility-checkbox"> I take full responsibility for the children I accompany
+      </label>
+                
+      <label>
+        <input type="checkbox" class="rules-checkbox"> I have read and agreed to the <a target="_blank" href="https://child-city.ee/en/rules-of-play/"><u>rules</u></a> of the children's playroom
+      </label>
+
+      <br>
+            
+      <button type="submit" id="checkout-button">Pay</button>
+
+      <p class="recaptcha" style="margin-bottom: 30px; margin-top: 30px;">This site is protected by reCAPTCHA and the Google
+    <a target="_blank" href="https://policies.google.com/privacy"><span style="color: #85C0A6">Privacy Policy</span></a> and
+    <a target="_blank" href="https://policies.google.com/terms"><span style="color: #85C0A6">Terms of Service</span></a> apply.
+      </p>
+      
+
+    </form>
+       <script src='/wp-content/themes/playroom/stripe/e-pilet/script.js'></script>
+          <script src='/wp-content/themes/playroom/stripe/e-pilet/fetch.js'></script>
+  </body>
+</html>
